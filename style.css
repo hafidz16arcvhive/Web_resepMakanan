@@ -1,0 +1,668 @@
+/* ===========================
+   RESET & VARIABEL GLOBAL
+   =========================== */
+
+/* Hapus margin/padding bawaan browser */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Variabel warna — ubah di sini, berubah di seluruh halaman */
+:root {
+  --cream: #FDF6EC;
+  --warm: #F5E6D0;
+  --brown: #5C3D1E;
+  --brown-light: #8B6240;
+  --brown-dark: #3A2410;
+  --orange: #E07B39;
+  --orange-light: #F4A261;
+  --green: #4A7C59;
+  --text: #2C1A0E;
+  --text-muted: #7A5C3E;
+  --shadow: 0 4px 20px rgba(92, 61, 30, 0.12);
+  --shadow-lg: 0 8px 40px rgba(92, 61, 30, 0.18);
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* Sembunyikan elemen */
+.hidden {
+  display: none !important;
+}
+
+/* ===========================
+   NAVBAR
+   =========================== */
+
+.navbar {
+  background: var(--brown-dark);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;   /* navbar ikut scroll */
+  top: 0;
+  z-index: 100;       /* selalu di atas elemen lain */
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: var(--orange-light);
+  padding: 1rem 0;
+  letter-spacing: 1px;
+  text-decoration: none;
+}
+
+/* Kata "Cook" di logo warnanya beda */
+.logo span {
+  color: var(--cream);
+  font-weight: 400;
+}
+
+.nav-links {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--cream);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s;
+  opacity: 0.8;
+}
+
+.nav-btn:hover,
+.nav-btn.active {
+  background: rgba(255, 255, 255, 0.1);
+  opacity: 1;
+}
+
+/* Tombol cuaca — warna khusus */
+.nav-btn.weather-btn {
+  background: var(--orange);
+  color: white;
+  opacity: 1;
+  font-weight: 500;
+}
+
+.nav-btn.weather-btn:hover {
+  background: var(--orange-light);
+}
+
+/* Tombol login — ada border */
+.nav-btn.login-btn {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.nav-btn.login-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ===========================
+   WEATHER BANNER
+   =========================== */
+
+.weather-banner {
+  background: linear-gradient(90deg, #1a4a6b, #2d7db5);
+  color: white;
+  padding: 1.2rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.weather-info {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.weather-icon {
+  font-size: 2.5rem;
+}
+
+.weather-details h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+}
+
+.weather-details p {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.weather-rec {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.8rem 1.2rem;
+  font-size: 0.9rem;
+  max-width: 380px;
+}
+
+.weather-rec strong {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #a8d8f0;
+}
+
+.weather-suggest-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 0.6rem 1.4rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.weather-suggest-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ===========================
+   HERO SECTION
+   =========================== */
+
+.hero {
+  background: linear-gradient(
+    135deg,
+    var(--brown-dark) 0%,
+    var(--brown) 60%,
+    var(--brown-light) 100%
+  );
+  min-height: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.hero-content {
+  max-width: 600px;
+}
+
+.hero-tag {
+  background: var(--orange);
+  color: white;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 0.35rem 1rem;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 1.2rem;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.2rem;
+  color: var(--cream);
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+
+/* Kata "Cinta" di hero warnanya orange */
+.hero h1 span {
+  color: var(--orange-light);
+}
+
+.hero p {
+  color: rgba(253, 246, 236, 0.75);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  line-height: 1.7;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background: var(--orange);
+  color: white;
+  border: none;
+  padding: 0.85rem 2rem;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: inline-block;
+}
+
+.btn-primary:hover {
+  background: var(--orange-light);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--cream);
+  border: 1.5px solid rgba(253, 246, 236, 0.4);
+  padding: 0.85rem 2rem;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-outline:hover {
+  border-color: var(--cream);
+  background: rgba(253, 246, 236, 0.08);
+}
+
+/* ===========================
+   MAIN CONTENT AREA
+   =========================== */
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* ===========================
+   SEARCH & FILTER
+   =========================== */
+
+.search-section {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 240px;
+  padding: 0.85rem 1.2rem;
+  border: 1.5px solid var(--warm);
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  background: white;
+  color: var(--text);
+  outline: none;
+  transition: border 0.2s;
+}
+
+.search-box:focus {
+  border-color: var(--orange);
+}
+
+.filter-select {
+  padding: 0.85rem 1rem;
+  border: 1.5px solid var(--warm);
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  background: white;
+  color: var(--text);
+  cursor: pointer;
+  outline: none;
+}
+
+/* ===========================
+   SECTION HEADER
+   =========================== */
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: var(--brown-dark);
+}
+
+.section-title span {
+  color: var(--orange);
+}
+
+/* ===========================
+   RECIPE GRID & CARD
+   =========================== */
+
+.recipe-grid {
+  display: grid;
+  /* auto-fill: isi kolom sebanyak mungkin */
+  /* minmax: minimal 260px, maksimal 1fr */
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.recipe-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: all 0.25s;
+  cursor: pointer;
+}
+
+.recipe-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Bagian atas kartu — emoji besar */
+.recipe-img {
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  position: relative;
+}
+
+/* Badge "Terlaris" dll */
+.recipe-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--orange);
+  color: white;
+  font-size: 0.7rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.recipe-body {
+  padding: 1rem 1.2rem;
+}
+
+.recipe-cat {
+  font-size: 0.72rem;
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+}
+
+.recipe-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: var(--brown-dark);
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.recipe-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.recipe-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--warm);
+  padding-top: 0.8rem;
+}
+
+.recipe-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--brown);
+}
+
+.recipe-views {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.like-btn {
+  background: none;
+  border: 1px solid var(--warm);
+  color: var(--text-muted);
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+
+.like-btn:hover,
+.like-btn.liked {
+  background: #C0392B;
+  border-color: #C0392B;
+  color: white;
+}
+
+/* Pesan kosong saat tidak ada resep */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+/* ===========================
+   MODAL DETAIL RESEP
+   =========================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal {
+  background: white;
+  border-radius: 20px;
+  max-width: 680px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.modal-hero {
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6rem;
+  border-radius: 20px 20px 0 0;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: white;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.1rem;
+  box-shadow: var(--shadow);
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.modal-body h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.7rem;
+  color: var(--brown-dark);
+  margin-bottom: 0.5rem;
+}
+
+.modal-meta {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.modal-meta span {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.modal-meta strong {
+  color: var(--orange);
+}
+
+.ingr-title,
+.steps-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: var(--brown-dark);
+  margin: 1.2rem 0 0.6rem;
+}
+
+.ingr-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.ingr-list li {
+  font-size: 0.9rem;
+  padding: 0.35rem 0.7rem;
+  background: var(--cream);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ingr-list li::before {
+  content: '•';
+  color: var(--orange);
+  font-size: 1.1rem;
+}
+
+.steps-list {
+  list-style: none;
+  counter-reset: step;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.steps-list li {
+  counter-increment: step;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  padding: 0.75rem 0.75rem 0.75rem 3rem;
+  position: relative;
+  background: var(--cream);
+  border-radius: 8px;
+}
+
+/* Nomor langkah bulat orange */
+.steps-list li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0.75rem;
+  top: 0.7rem;
+  background: var(--orange);
+  color: white;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* ===========================
+   WEATHER FILTER TAG
+   =========================== */
+
+/* Tag aktif saat filter cuaca sedang ON */
+.weather-active-tag {
+  background: #1a4a6b;
+  color: white;
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+}
+
+.weather-active-tag button {
+  background: rgba(255,255,255,0.25);
+  border: none;
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.weather-active-tag button:hover {
+  background: rgba(255,255,255,0.4);
+}
+
+/* Loading spinner kecil */
+.loading-text {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
