@@ -24,6 +24,56 @@
     </div>
   </nav>
 
+  <!-- LOGIN MODAL -->
+<div class="modal-overlay hidden" id="loginOverlay">
+  <div class="modal" style="max-width: 380px">
+    <div class="modal-body">
+      <h2 style="margin-bottom: 0.3rem">🔐 Login Admin</h2>
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem">
+        Khusus untuk administrator
+      </p>
+
+      <div class="login-error hidden" id="loginError"></div>
+
+      <label style="display:block; font-size:0.85rem; font-weight:500; margin-bottom:0.4rem">
+        Username
+      </label>
+      <input
+        type="text"
+        id="loginUser"
+        placeholder="admin"
+        style="width:100%; padding:0.75rem 1rem; border:1.5px solid #e8ddd0;
+               border-radius:8px; font-family:'DM Sans',sans-serif;
+               font-size:0.95rem; outline:none; margin-bottom:1rem"
+      >
+
+      <label style="display:block; font-size:0.85rem; font-weight:500; margin-bottom:0.4rem">
+        Password
+      </label>
+      <input
+        type="password"
+        id="loginPass"
+        placeholder="••••••"
+        style="width:100%; padding:0.75rem 1rem; border:1.5px solid #e8ddd0;
+               border-radius:8px; font-family:'DM Sans',sans-serif;
+               font-size:0.95rem; outline:none; margin-bottom:1.2rem"
+      >
+
+      <button class="btn-primary" style="width:100%" id="loginSubmit">
+        Masuk
+      </button>
+      <button
+        onclick="closeLogin()"
+        style="width:100%; margin-top:0.6rem; background:none;
+               border:1px solid #e8ddd0; padding:0.75rem; border-radius:8px;
+               cursor:pointer; font-family:'DM Sans',sans-serif; color:var(--text-muted)"
+      >
+        Batal
+      </button>
+    </div>
+  </div>
+</div>
+
   <!-- ===== WEATHER BANNER (tersembunyi dulu) ===== -->
   <div class="weather-banner hidden" id="weatherBanner">
     <div class="weather-info">
@@ -103,6 +153,9 @@
     <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
+
+
+
   <script src="script.js"></script>
 </body>
 </html>

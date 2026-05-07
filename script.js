@@ -397,4 +397,88 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('weatherFilterBtn')
     .addEventListener('click', filterByWeather);
 
+    // Tombol login di navbar
+document.getElementById('authBtn')
+  .addEventListener('click', showLogin);
+
+// Login saat tekan Enter di password
+document.getElementById('loginPass')
+  .addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') doLogin();
+  });
+
+// Submit login
+document.getElementById('loginSubmit')
+  .addEventListener('click', doLogin);
+
+// Tutup login modal saat klik di luar
+document.getElementById('loginOverlay')
+  .addEventListener('click', function(e) {
+    if (e.target === this) closeLogin();
+  });
 });
+
+// ================================
+// FUNGSI LOGIN
+// ================================
+
+function showLogin() {
+  document.getElementById('loginOverlay').classList.remove('hidden');
+  setTimeout(() => document.getElementById('loginUser').focus(), 100);
+}
+
+function closeLogin() {
+  document.getElementById('loginOverlay').classList.add('hidden');
+  document.getElementById('loginError').classList.add('hidden');
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+}
+
+async function doLogin() {
+  const username = document.getElementById('loginUser').value.trim();
+  const password = document.getElementById('loginPass').value;
+  const errorEl  = document.getElementById('loginError');
+
+  if (!username || !password) {
+    showLoginError('Username dan password wajib diisi');
+    return;
+  }
+
+  // Ubah tombol saat loading
+  const btn = document.getElementById('loginSubmit');
+  btn.textContent = 'Memproses...';
+  btn.disabled = true;
+
+  try {
+    const response = await fetch('api/login.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      // Redirect ke dashboard
+      window.location.href = 'admin/dashboard.php';
+    } else {
+      showLoginError(data.message);
+      btn.textContent = 'Masuk';
+      btn.disabled = false;
+    }
+  } catch (error) {
+    showLoginError('Terjadi kesalahan, coba lagi.');
+    btn.textContent = 'Masuk';
+    btn.disabled = false;
+  }
+}
+
+function showLoginError(message) {
+  const el = document.getElementById('loginError');
+  el.textContent = message;
+  el.classList.remove('hidden');
+  el.style.cssText = `
+    background: #fde8e8; color: #c0392b; border-radius: 6px;
+    padding: 0.6rem 0.8rem; font-size: 0.85rem; margin-bottom: 0.8rem;
+  `;
+}

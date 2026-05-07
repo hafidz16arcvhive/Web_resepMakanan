@@ -1,0 +1,255 @@
+body.dash-body {
+  background: var(--cream);
+  min-height: 100vh;
+}
+
+.dash-header {
+  background: var(--brown-dark);
+  color: var(--cream);
+  padding: 1.2rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.dash-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: var(--orange-light);
+}
+
+.dash-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
+
+.dash-logout {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: var(--cream);
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+}
+
+.dash-logout:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+.dash-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* STATISTIK */
+.dash-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.2rem 1.4rem;
+  box-shadow: var(--shadow);
+  border-left: 4px solid var(--orange);
+}
+
+.stat-card.green { border-left-color: var(--green); }
+.stat-card.blue  { border-left-color: #2d7db5; }
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  color: var(--brown-dark);
+  font-weight: 600;
+}
+
+.stat-sub {
+  font-size: 0.75rem;
+  color: var(--green);
+  margin-top: 0.3rem;
+}
+
+/* GRID DASHBOARD */
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 700px) {
+  .dash-grid { grid-template-columns: 1fr; }
+}
+
+.dash-card {
+  background: white;
+  border-radius: 14px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.dash-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  color: var(--brown-dark);
+  margin-bottom: 1.2rem;
+}
+
+/* RANKING */
+.rank-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.rank-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  background: var(--cream);
+}
+
+.rank-num {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--orange);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.rank-num.gold   { background: #f5a623; }
+.rank-num.silver { background: #a0a0a0; }
+.rank-num.bronze { background: #cd7f32; }
+
+.rank-name {
+  flex: 1;
+  font-size: 0.88rem;
+  color: var(--text);
+}
+
+.rank-bar-wrap {
+  width: 80px;
+  height: 6px;
+  background: var(--warm);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.rank-bar {
+  height: 100%;
+  background: var(--orange);
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+
+.rank-views {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  min-width: 40px;
+  text-align: right;
+}
+
+/* GRAFIK BATANG */
+.chart-area {
+  height: 160px;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  padding: 0.5rem 0;
+}
+
+.bar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  gap: 4px;
+}
+
+.bar-fill {
+  background: var(--orange);
+  border-radius: 4px 4px 0 0;
+  width: 100%;
+  transition: height 0.5s ease;
+}
+
+.bar-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* TABEL */
+.dash-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.dash-table th {
+  text-align: left;
+  padding: 0.6rem 0.8rem;
+  background: var(--cream);
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dash-table td {
+  padding: 0.7rem 0.8rem;
+  border-bottom: 1px solid var(--warm);
+  color: var(--text);
+}
+
+.dash-table tr:last-child td {
+  border-bottom: none;
+}
+
+.status-badge {
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.status-badge.published {
+  background: #e8f5ee;
+  color: var(--green);
+}
+
+.status-badge.draft {
+  background: #fdf3e0;
+  color: #c07800;
+}
