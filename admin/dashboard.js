@@ -1,4 +1,11 @@
 // ================================
+// CRUD — STATE
+// Dipindah ke paling atas
+// ================================
+
+let editingId = null;
+
+// ================================
 // LOAD DATA DASHBOARD
 // ================================
 
@@ -6,7 +13,6 @@ async function loadDashboard() {
   try {
     const response = await fetch('../api/dashboard.php');
 
-    // Kalau 401 berarti belum login
     if (response.status === 401) {
       window.location.href = '../index.php';
       return;
@@ -101,8 +107,6 @@ function renderWeeklyChart(weeklyData) {
 // ================================
 
 function renderTable(recipes) {
-  // Simpan data resep ke variable global
-  // supaya bisa diakses saat tombol edit diklik
   window.recipesData = recipes;
 
   document.getElementById('dashTableBody').innerHTML = recipes.map(r => `
@@ -123,32 +127,10 @@ function renderTable(recipes) {
   `).join('');
 }
 
-// Fungsi helper untuk edit — cari data resep lalu buka form
 function editRecipe(id) {
   const recipe = window.recipesData.find(r => r.id == id);
   if (recipe) openEditForm(recipe);
 }
-
-// ================================
-// LOGOUT
-// ================================
-
-document.getElementById('logoutBtn').addEventListener('click', async () => {
-  await fetch('../api/logout.php');
-  window.location.href = '../index.php';
-});
-
-// ================================
-// JALANKAN SAAT HALAMAN DIBUKA
-// ================================
-
-loadDashboard();
-
-// ================================
-// CRUD — STATE
-// ================================
-
-let editingId = null; // null = mode tambah, ada angka = mode edit
 
 // ================================
 // BUKA FORM TAMBAH
@@ -159,7 +141,6 @@ function openAddForm() {
   document.getElementById('formTitle').textContent  = 'Tambah Resep Baru';
   document.getElementById('btnSave').textContent    = 'Simpan Resep';
 
-  // Kosongkan semua field
   document.getElementById('recipeId').value     = '';
   document.getElementById('fTitle').value       = '';
   document.getElementById('fEmoji').value       = '';
@@ -185,29 +166,22 @@ function openEditForm(recipe) {
   document.getElementById('formTitle').textContent = 'Edit Resep';
   document.getElementById('btnSave').textContent   = 'Perbarui Resep';
 
-  // Isi field dengan data resep yang dipilih
   document.getElementById('recipeId').value  = recipe.id;
   document.getElementById('fTitle').value    = recipe.title;
   document.getElementById('fEmoji').value    = recipe.emoji;
   document.getElementById('fCookTime').value = recipe.cook_time;
   document.getElementById('fServings').value = recipe.servings;
   document.getElementById('fStatus').value   = recipe.status;
+  document.getElementById('fWeather').value  = recipe.weather_tags.join(',');
 
-  // Weather tags: dari "hujan,mendung" tetap seperti itu
-  document.getElementById('fWeather').value = recipe.weather_tags.join(',');
-
-  // Ingredients & steps: dari array balik ke teks per baris
   document.getElementById('fIngredients').value = recipe.ingredients.join('\n');
   document.getElementById('fSteps').value       = recipe.steps.join('\n');
 
-  // Set dropdown kategori berdasarkan nama
   const categoryMap = {
     'Nusantara': '1', 'Asia': '2', 'Internasional': '3',
     'Minuman': '4', 'Dessert': '5'
   };
-  document.getElementById('fCategory').value =
-    categoryMap[recipe.category_name] || '1';
-
+  document.getElementById('fCategory').value   = categoryMap[recipe.category_name] || '1';
   document.getElementById('fDifficulty').value = recipe.difficulty;
 
   document.getElementById('formOverlay').classList.remove('hidden');
@@ -223,40 +197,30 @@ function closeForm() {
 }
 
 // ================================
-// SIMPAN RESEP (TAMBAH / EDIT)
+// SIMPAN RESEP
 // ================================
 
 async function saveRecipe() {
-  // Ambil nilai dari semua field
-  const title       = document.getElementById('fTitle').value.trim();
-  const emoji       = document.getElementById('fEmoji').value.trim();
-  const cookTime    = document.getElementById('fCookTime').value.trim();
-  const servings    = document.getElementById('fServings').value.trim();
-  const categoryId  = document.getElementById('fCategory').value;
-  const difficulty  = document.getElementById('fDifficulty').value;
-  const weather     = document.getElementById('fWeather').value.trim();
-  const status      = document.getElementById('fStatus').value;
+  const title      = document.getElementById('fTitle').value.trim();
+  const emoji      = document.getElementById('fEmoji').value.trim();
+  const cookTime   = document.getElementById('fCookTime').value.trim();
+  const servings   = document.getElementById('fServings').value.trim();
+  const categoryId = document.getElementById('fCategory').value;
+  const difficulty = document.getElementById('fDifficulty').value;
+  const weather    = document.getElementById('fWeather').value.trim();
+  const status     = document.getElementById('fStatus').value;
 
-  // Ubah teks per baris jadi string dengan pemisah |
   const ingredients = document.getElementById('fIngredients').value
-    .split('\n')
-    .map(i => i.trim())
-    .filter(i => i !== '')  // hapus baris kosong
-    .join('|');
+    .split('\n').map(i => i.trim()).filter(i => i !== '').join('|');
 
   const steps = document.getElementById('fSteps').value
-    .split('\n')
-    .map(s => s.trim())
-    .filter(s => s !== '')
-    .join('|');
+    .split('\n').map(s => s.trim()).filter(s => s !== '').join('|');
 
-  // Validasi field wajib
   if (!title || !ingredients || !steps || !cookTime || !servings) {
     showToast('Mohon lengkapi semua field yang wajib diisi!', 'error');
     return;
   }
 
-  // Nonaktifkan tombol saat proses
   const btn = document.getElementById('btnSave');
   btn.disabled    = true;
   btn.textContent = 'Menyimpan...';
@@ -286,7 +250,7 @@ async function saveRecipe() {
     if (data.success) {
       showToast(data.message, 'success');
       closeForm();
-      loadDashboard(); // Refresh data dashboard
+      loadDashboard();
     } else {
       showToast(data.message || 'Terjadi kesalahan', 'error');
     }
@@ -303,7 +267,6 @@ async function saveRecipe() {
 // ================================
 
 async function deleteRecipe(id, title) {
-  // Minta konfirmasi dulu sebelum hapus
   const confirmed = confirm(`Hapus resep "${title}"?\n\nTindakan ini tidak bisa dibatalkan.`);
   if (!confirmed) return;
 
@@ -318,7 +281,7 @@ async function deleteRecipe(id, title) {
 
     if (data.success) {
       showToast(data.message, 'success');
-      loadDashboard(); // Refresh data
+      loadDashboard();
     } else {
       showToast('Gagal menghapus resep', 'error');
     }
@@ -328,11 +291,10 @@ async function deleteRecipe(id, title) {
 }
 
 // ================================
-// NOTIFIKASI TOAST
+// TOAST NOTIFIKASI
 // ================================
 
 function showToast(message, type = 'success') {
-  // Hapus toast lama kalau masih ada
   const old = document.getElementById('toast');
   if (old) old.remove();
 
@@ -342,7 +304,26 @@ function showToast(message, type = 'success') {
   toast.textContent = (type === 'success' ? '✅ ' : '❌ ') + message;
 
   document.body.appendChild(toast);
-
-  // Hilang otomatis setelah 3 detik
   setTimeout(() => toast.remove(), 3000);
 }
+
+// ================================
+// EVENT LISTENERS
+// Semua di paling bawah
+// ================================
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await fetch('../api/logout.php');
+  window.location.href = '../index.php';
+});
+
+document.getElementById('btnAddRecipe')
+  .addEventListener('click', openAddForm);
+
+document.getElementById('formOverlay')
+  .addEventListener('click', function(e) {
+    if (e.target === this) closeForm();
+  });
+
+// Dijalankan paling terakhir
+loadDashboard();
